@@ -81,7 +81,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-bold text-black mb-1">Location</h4>
-                  <p className="text-gray-600">Ushirika Plaza, Nairobi, Kenya</p>
+                  <p className="text-gray-600">Ushirika Plaza, Eastleigh, Nairobi</p>
                 </div>
               </div>
               <div className="flex items-start">
@@ -107,14 +107,11 @@ export default function Contact() {
             <div className="mt-8 bg-black text-white p-6 rounded-lg">
               <h4 className="font-bold text-xl mb-4">Opening Hours</h4>
               <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Monday - Friday</span>
-                  <span className="text-red-600 font-semibold">5:00 AM - 11:00 PM</span>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Every Day</span>
+                  <span className="text-red-600 font-semibold text-lg">24/7</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-300">Saturday - Sunday</span>
-                  <span className="text-red-600 font-semibold">6:00 AM - 9:00 PM</span>
-                </div>
+                <p className="text-gray-400 text-sm mt-2">We're open around the clock for your convenience</p>
               </div>
             </div>
           </div>
