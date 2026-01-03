@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Admin - Body Fuel Fitness</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: #fff;
+      color: #000;
+      padding: 40px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 100%;
+    }
+    h1 {
+      color: #dc2626;
+      margin-bottom: 10px;
+    }
+    button {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    button:hover {
+      background: #b91c1c;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 4px;
+    }
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    .info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Body Fuel Fitness</h1>
+    <h2>Admin Account Setup</h2>
+    <p>Click the button below to create the admin account:</p>
+    <ul>
+      <li><strong>Email:</strong> admin@gmail.com</li>
+      <li><strong>Password:</strong> 12345678</li>
+    </ul>
+    <button id="setupBtn" onclick="setupAdmin()">Create Admin Account</button>
+    <div id="status"></div>
+
+    <script type="module">
+      import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+      const supabaseUrl = 'https://hfqrsoicoiopjcxpeqjd.supabase.co';
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmcXJzb2ljb2lvcGpjeHBlcWpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc0NzQ4MTcsImV4cCI6MjA4MzA1MDgxN30.T2CvfWHfwAA0e-qT2wIzm_LPXRD3GW9k1Z39wbn6zXo';
+
+      const supabase = createClient(supabaseUrl, supabaseKey);
+
+      window.setupAdmin = async function() {
+        const btn = document.getElementById('setupBtn');
+        const status = document.getElementById('status');
+
+        btn.disabled = true;
+        btn.textContent = 'Creating...';
+        status.innerHTML = '';
+
+        try {
+          const { data, error } = await supabase.auth.signUp({
+            email: 'admin@gmail.com',
+            password: '12345678',
+            options: {
+              emailRedirectTo: window.location.origin + '/admin'
+            }
+          });
+
+          if (error) {
+            if (error.message.includes('already registered')) {
+              status.innerHTML = '<div class="status info">Admin account already exists! You can now login at <a href="/admin-login" style="color: #1e40af; font-weight: bold;">/admin-login</a></div>';
+            } else {
+              throw error;
+            }
+          } else {
+            status.innerHTML = '<div class="status success">Admin account created successfully! You can now login at <a href="/admin-login" style="color: #065f46; font-weight: bold;">/admin-login</a></div>';
+          }
+        } catch (err) {
+          status.innerHTML = `<div class="status error">Error: ${err.message}</div>`;
+          btn.disabled = false;
+          btn.textContent = 'Try Again';
+        }
+      };
+    </script>
+  </div>
+</body>
+</html>
